@@ -1,24 +1,26 @@
-import java.util.ArrayList;
+import java.util.Stack;
 
 class Solution {
     public int[] solution(int[] prices) {
-        ArrayList<Integer> answer = new ArrayList();
-        for(int i = 0; i < prices.length; i++){
-            int count = 0;
-            int flag = 0;
-            for(int j = i+1; j < prices.length; j++){
-                count++;
-                if(prices[j] < prices[i]){
-                    flag = 1;
-                    answer.add(count);
-                    break;
-                }
+        Stack<Integer> stack = new Stack();
+        int n = prices.length;
+        int[] answer = new int[n];
+        stack.push(0);
+        
+        for(int i = 0; i<n; i++){
+            while(!stack.isEmpty() && prices[stack.peek()] > prices[i]){
+                int j = stack.pop();
+                answer[j] = i-j;
             }
-            if(flag == 0) answer.add(count);
-            
+            stack.push(i);
+        }
+        
+        while(!stack.isEmpty()){
+            int j = stack.pop();
+            answer[j] = n - j - 1;
         }
         
         
-        return answer.stream().mapToInt(i -> i).toArray();
+        return answer;
     }
 }
