@@ -23,7 +23,11 @@ class Solution {
                 
                 // 삭제할 것의 위의 아래는 현재 삭제되는것의 아래
                 down[up[k]] = down[k];
-                k = n < down[k] ? up[k]: down[k];
+                // 삭제를 했는데 마지막 행이라면 k 를 삭제한것의 위 값으로 초기화 아니라면 아래
+                if (down[k] > n){
+                    k = up[k];
+                } else k = down[k];
+                
             } else if (c.startsWith("Z")){
                 int restore = deleted.pop();
                 // 복원하는 것의 아래의 위는 지금 복원되는 것
