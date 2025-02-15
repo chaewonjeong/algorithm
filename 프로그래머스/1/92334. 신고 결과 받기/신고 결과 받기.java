@@ -27,16 +27,28 @@ class Solution {
         
         
         
-        Map<Integer, HashSet<Integer>> filteredMap = repotMap.entrySet().stream()
-                .filter(entry -> entry.getValue().size() >= k) 
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+//         Map<Integer, HashSet<Integer>> filteredMap = repotMap.entrySet().stream()
+//                 .filter(entry -> entry.getValue().size() >= k) 
+//                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         
+        List<Set<Integer>> user = repotMap.entrySet().stream()
+            .filter(entry -> entry.getValue().size() >= k)
+            .map(Map.Entry::getValue)
+            .collect(Collectors.toList());
         
-        for(Map.Entry<Integer, HashSet<Integer>> entry : filteredMap.entrySet()){
-            for(int i : entry.getValue()){
+        for(Set<Integer> u : user){
+            for(int i : u){
                 answer[i]++;
             }
         }
+        
+        
+        
+//         for(Map.Entry<Integer, HashSet<Integer>> entry : filteredMap.entrySet()){
+//             for(int i : entry.getValue()){
+//                 answer[i]++;
+//             }
+//         }
         
         
         
