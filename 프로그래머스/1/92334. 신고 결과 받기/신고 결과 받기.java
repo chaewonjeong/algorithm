@@ -25,17 +25,18 @@ class Solution {
             repotMap.get(repot).add(user);
         }
         
+        
+        
         Map<Integer, HashSet<Integer>> filteredMap = repotMap.entrySet().stream()
                 .filter(entry -> entry.getValue().size() >= k) 
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         
         
-        filteredMap.forEach((key, value) -> {
-            Integer[] tmp = value.toArray(Integer[]::new);
-            for(int i : tmp){
+        for(Map.Entry<Integer, HashSet<Integer>> entry : filteredMap.entrySet()){
+            for(int i : entry.getValue()){
                 answer[i]++;
-            }}
-        );
+            }
+        }
         
         
         
