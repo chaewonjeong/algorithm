@@ -1,34 +1,30 @@
 import java.util.*;
 
-public class Main{
-    public static void main(String args[]){
+public class Main {
+    public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
- 
+
         int T = sc.nextInt();
-        sc.nextLine();
-        
-        for(int i = 0; i < T; i++){
-            Stack<Character> stack = new Stack<>();
-            
+        sc.nextLine();  // 개행 문자 처리
+
+        for (int i = 0; i < T; i++) {
             String str = sc.nextLine();
-            for(char c : str.toCharArray()){
-                if(c == '('){
-                    stack.push(c);
+            int count = 0;
+            boolean isValid = true;
+
+            for (char c : str.toCharArray()) {
+                if (c == '(') {
+                    count++;
                 } else {
-                    if(!stack.isEmpty()){
-                        if(stack.peek() == '('){
-                            stack.pop();
-                            continue;
-                        }
+                    if (count == 0) {  // '('가 없는데 ')'가 나오는 경우
+                        isValid = false;
+                        break;
                     }
-                    stack.push(c);
+                    count--;
                 }
             }
-            if(stack.isEmpty()){
-                System.out.println("YES");
-            }else{
-                System.out.println("NO");
-            }            
+
+            System.out.println((isValid && count == 0) ? "YES" : "NO");
         }
     }
 }
