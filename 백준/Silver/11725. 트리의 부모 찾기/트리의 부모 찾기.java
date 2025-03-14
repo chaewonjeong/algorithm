@@ -9,6 +9,7 @@ import java.util.StringTokenizer;
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder answer = new StringBuilder();
         int V = Integer.parseInt(br.readLine());
 
         ArrayList<Integer>[] adj = new ArrayList[V + 1];
@@ -43,7 +44,8 @@ public class Main {
         }
 
         for(int i = 2; i <= V; i++){
-            System.out.println(parent[i]);
+            answer.append(parent[i]).append("\n");
         }
+        System.out.println(answer.toString());
     }
 }
