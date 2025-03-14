@@ -3,7 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-public class Main {
+public class Main{
     static int[] parent;
     // 유니온 파인드 대표 예제
     public static void main(String[] args) throws IOException {
@@ -55,14 +55,18 @@ public class Main {
         int rootV = find(v);
         if (rootU == rootV) return false; // 이미 같은 집합
 
-        // 집합 크기 비교 (음수이므로 절댓값이 더 큰 쪽이 랭크가 더 높음)
-        if (parent[rootU] < parent[rootV]) { // rootU가 더 깊은 트리
-            parent[rootU] += parent[rootV]; // 랭크(음수) 업데이트
-            parent[rootV] = rootU; // rootV를 rootU에 붙임
-        } else { // rootV가 더 깊거나 같음
-            parent[rootV] += parent[rootU]; // 랭크(음수) 업데이트
-            parent[rootU] = rootV; // rootU를 rootV에 붙임
+        if(parent[rootU] > parent[rootV]) { //v의 랭크가 더 큰경우
+            int tmp = rootU;
+            rootU = rootV;
+            rootV = tmp;
         }
+        // 항상 rootU의 랭크가 더 큼
+        // 즉 항상 v를 u의 자식으로 union
+
+        if(parent[rootU] == parent[rootV]) {
+            parent[rootU]--;
+        }
+        parent[rootV] = rootU;
         return true;
     }
 }
