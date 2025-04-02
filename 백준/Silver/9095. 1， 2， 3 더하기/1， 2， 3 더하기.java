@@ -1,32 +1,27 @@
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Main {
-    static int count;
-    static void fun(int n){
-        if(n < 1) return;
 
-        if (n <= 3) {
-            count++;
+    static int[] dp = new int[12];
+
+
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int T = Integer.parseInt(br.readLine());
+        dp[0] = 0;
+        dp[1] = 1;
+        dp[2] = 2;
+        dp[3] = 4;
+
+        for(int i = 4; i<11; i++) {
+            dp[i] = dp[i-1] + dp[i-2] + dp[i-3];
         }
 
-        fun(n-1);
-        fun(n-2);
-        fun(n-3);
-    }
-
-    public static void main(String[] args) {
-
-        Scanner scanner = new Scanner(System.in);
-        int T = scanner.nextInt();
-        int[] test = new int[T];
-
-        for (int i = 0; i < T; i++) {
-            test[i] = scanner.nextInt();
-        }
-        for(int t : test){
-            count = 0;
-            fun(t);
-            System.out.println(count);
+        for(int i = 0; i < T; i++){
+            System.out.println(dp[Integer.parseInt(br.readLine())]);
         }
     }
 }
