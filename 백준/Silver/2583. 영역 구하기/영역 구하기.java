@@ -1,10 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Queue;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main {
 
@@ -72,11 +69,13 @@ public class Main {
             }
         }
 
-        System.out.println(answer.size());
-        int[] ans = answer.stream().sorted().mapToInt(i -> i).toArray();
-        for (int i : ans) {
-            System.out.print(i + " ");
+        Collections.sort(answer);
+        StringBuilder sb = new StringBuilder();
+        sb.append(answer.size()).append('\n');
+        for (int num : answer) {
+            sb.append(num).append(' ');
         }
+        System.out.println(sb);
 
     }
 }
