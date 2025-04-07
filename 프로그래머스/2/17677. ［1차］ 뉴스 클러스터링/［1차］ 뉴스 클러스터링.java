@@ -57,36 +57,24 @@ class Solution {
     }
 
     public static int calcUnionSize(HashMap<String, Integer> stringMap1,
-                                    HashMap<String, Integer> stringMap2) {
-//        HashSet<String> unionSet = new HashSet<>();
-//        int size = 0;
-//
-//        for(String str : stringMap1.keySet()) {
-//            unionSet.add(str);
-//            if(stringMap2.containsKey(str)) {
-//                int max = Math.max(stringMap1.get(str), stringMap2.get(str));
-//                size += max;
-//            } else {
-//                size += 1;
-//            }
-//        }
-//
-//        for(String str : stringMap2.keySet()) {
-//            if(unionSet.contains(str)) continue;
-//            size += 1;
-//        }
-//        return size;
-        HashSet<String> allKeys = new HashSet<>();
-        allKeys.addAll(stringMap1.keySet());
-        allKeys.addAll(stringMap2.keySet());
-
+                                    HashMap<String, Integer> stringMap2) {      
+        HashSet<String> unionSet = new HashSet<>();
         int size = 0;
-        for (String key : allKeys) {
-            int count1 = stringMap1.getOrDefault(key, 0);
-            int count2 = stringMap2.getOrDefault(key, 0);
-            size += Math.max(count1, count2);
+
+        for(String str : stringMap1.keySet()) {
+            unionSet.add(str);
+            if(stringMap2.containsKey(str)) {
+                int max = Math.max(stringMap1.get(str), stringMap2.get(str));
+                size += max;
+            } else {
+                size += stringMap1.get(str);
+            }
         }
 
+        for(String str : stringMap2.keySet()) {
+            if(unionSet.contains(str)) continue;
+            size += stringMap2.get(str);
+        }
         return size;
     }
 
