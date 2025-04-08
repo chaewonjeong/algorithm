@@ -46,7 +46,9 @@ public class Main {
         }
 
         Arrays.sort(nums);
+        int[] visited = new int[n];
+        ArrayList<Integer> result = new ArrayList<>();
 
-        dfs(0,new int[n], new ArrayList<>());
+        dfs(0,visited,result);
     }
 }
