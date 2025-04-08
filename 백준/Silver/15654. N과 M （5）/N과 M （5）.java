@@ -9,13 +9,15 @@ public class Main {
     static int[] nums;
     static int n;
     static int m;
+    static StringBuilder answer = new StringBuilder();
 
     static void dfs(int k, int[] visited, ArrayList<Integer> result) {
         if(k == m){
+            // 매번 System.out.println을 호출하면 시간이 오래 걸림
             for(int i = 0; i < result.size(); i++){
-                System.out.print(result.get(i)+ " ");
+                answer.append(result.get(i)).append(" ");
             }
-            System.out.println();
+            answer.append("\n");
             return;
         }
 
@@ -50,5 +52,6 @@ public class Main {
         ArrayList<Integer> result = new ArrayList<>();
 
         dfs(0,visited,result);
+        System.out.println(answer);
     }
 }
