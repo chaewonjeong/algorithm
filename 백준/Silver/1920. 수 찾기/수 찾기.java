@@ -19,6 +19,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder answer = new StringBuilder();
         int n = Integer.parseInt(br.readLine());
         int[] nums = new int[n];
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -36,7 +37,10 @@ public class Main {
         }
 
         for (int i : targets) {
-            System.out.println(search(nums,0, nums.length - 1, i));
+            int ans = search(nums,0, nums.length-1, i);
+            answer.append(ans).append("\n");
         }
+
+        System.out.println(answer.toString());
     }
 }
