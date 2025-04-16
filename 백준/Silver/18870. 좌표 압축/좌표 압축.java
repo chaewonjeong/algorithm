@@ -1,9 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main {
     static int lowerSearch(int target, int[] arr){
@@ -35,21 +33,33 @@ public class Main {
             nums[i] = Integer.parseInt(st.nextToken());
         }
 
-
-        HashSet<Integer> set = new HashSet<>();
-        for(int i = 0; i < n; i++){
-            set.add(nums[i]);
-        }
-
-        int[] sorted = new int[set.size()];
-        int index = 0;
-        for (int i : set) {
-            sorted[index++] = i;
-        }
+        int[] sorted = Arrays.copyOf(nums, n);
         Arrays.sort(sorted);
 
+//        HashSet<Integer> set = new HashSet<>();
+//        for(int i = 0; i < n; i++){
+//            set.add(nums[i]);
+//        }
+//
+//        int[] sorted = new int[set.size()];
+//        int index = 0;
+//        for (int i : set) {
+//            sorted[index++] = i;
+//        }
+//        Arrays.sort(sorted);
+
+        ArrayList<Integer> uni = new ArrayList<>();
+        for(int i = 0; i < n; i++){
+            if(i == 0 || sorted[i] != sorted[i-1]){
+                uni.add(sorted[i]);
+            }
+        }
+
+        int[] uniArr = uni.stream().mapToInt(i->i).toArray();
+
+
         for (int i : nums) {
-            int o = lowerSearch(i, sorted);
+            int o = lowerSearch(i, uniArr);
             answer.append(o).append(" ");
         }
 
