@@ -21,23 +21,33 @@ public class Main {
 
         int answer = Integer.MAX_VALUE;
 
-        int start = 0;
-        int end = 0;
-        int dif = 0;
+//        int start = 0;
+//        int end = 0;
+//        int dif = 0;
 
-        while (end < n) {
-            if (start == end) {
+//        while (end < n) {
+//            if (start == end) {
+//                end++;
+//            }
+//            if(end == n) break;
+//            
+//            dif = nums[end] - nums[start];
+//
+//            if(dif >= m){
+//                answer = Math.min(answer, dif);
+//                start++;
+//            } else {
+//                end++;
+//            }
+//        }
+
+        int end = 0;
+        for(int start = 0; start < n; start++) {
+            while(end < n && nums[end] - nums[start] < m) {
                 end++;
             }
             if(end == n) break;
-            dif = nums[end] - nums[start];
-
-            if(dif >= m){
-                answer = Math.min(answer, dif);
-                start++;
-            } else {
-                end++;
-            }
+            answer = Math.min(answer, nums[end] - nums[start]);
         }
 
         System.out.println(answer);
