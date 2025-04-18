@@ -21,22 +21,22 @@ public class Main {
 
         int answer = Integer.MAX_VALUE;
 
-        for (int i = 0; i < n; i++) {
-            int target = nums[i] + m;
-            int left = i + 1;
-            int right = n - 1;
+        int start = 0;
+        int end = 0;
+        int dif = 0;
 
-            while (left<=right){
-                int mid = left + (right - left)/2;
-                if(nums[mid]>=target){
-                    right = mid - 1;
-                } else {
-                    left = mid + 1;
-                }
+        while (end < n) {
+            if (start == end) {
+                end++;
             }
+            if(end == n) break;
+            dif = nums[end] - nums[start];
 
-            if(left != n){
-                answer = Math.min(answer, nums[left] - nums[i]);
+            if(dif >= m){
+                answer = Math.min(answer, dif);
+                start++;
+            } else {
+                end++;
             }
         }
 
