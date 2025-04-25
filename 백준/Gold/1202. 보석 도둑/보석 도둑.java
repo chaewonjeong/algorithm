@@ -16,44 +16,40 @@ public class Main {
         int n = Integer.parseInt(st.nextToken());
         int k = Integer.parseInt(st.nextToken());
 
-        Map<Integer, ArrayList<Integer>> jewel = new TreeMap<>(Comparator.reverseOrder());
+        Map<Integer, PriorityQueue<Integer>> jewel = new TreeMap<>(Comparator.reverseOrder());
 
-        for(int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {
             st = new StringTokenizer(br.readLine());
-            int m = Integer.parseInt(st.nextToken());
-            int v = Integer.parseInt(st.nextToken());
-            jewel.computeIfAbsent(v, key -> new ArrayList<>()).add(m);
+            int m = Integer.parseInt(st.nextToken()); // 무게
+            int v = Integer.parseInt(st.nextToken()); // 가격
+            jewel.computeIfAbsent(v, key -> new PriorityQueue<>()).add(m);
         }
-
 
         TreeMap<Integer, Integer> bag = new TreeMap<>();
 
-        for(int i = 0; i < k; i++) {
+        for (int i = 0; i < k; i++) {
             int c = Integer.parseInt(br.readLine());
             bag.put(c, bag.getOrDefault(c, 0) + 1);
         }
 
-        for(Map.Entry<Integer, ArrayList<Integer>> jew : jewel.entrySet()) {
+        for (Map.Entry<Integer, PriorityQueue<Integer>> jew : jewel.entrySet()) {
             int val = jew.getKey(); // 가격
-            ArrayList<Integer> wList = jew.getValue();
-            wList.sort(Integer::compareTo);
+            PriorityQueue<Integer> wList = jew.getValue();
 
-            for (int w : wList) {
+            while (!wList.isEmpty()) {
+                int w = wList.poll(); // 가장 가벼운 보석부터 꺼냄
                 Integer bagWeight = bag.ceilingKey(w);
-                if(bagWeight != null) {
+                if (bagWeight != null) {
                     price += val;
-                    if(bag.get(bagWeight) == 1) {
+                    if (bag.get(bagWeight) == 1) {
                         bag.remove(bagWeight);
                     } else {
                         bag.put(bagWeight, bag.get(bagWeight) - 1);
                     }
                 }
-
             }
         }
 
         System.out.println(price);
-
-
     }
 }
