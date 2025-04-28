@@ -1,41 +1,34 @@
-import java.util.stream.Stream;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
+import java.util.*;
+import java.util.stream.Collectors;
 
 class Solution {
-    public int[] solution(String[] genres, int[] plays) {
-        
-        HashMap<String, Integer> playMap = new HashMap<>(); // 장르별 총 재생 횟수
-        HashMap<String, ArrayList<int[]>> genreMap = new HashMap<>(); 
-        
-        for(int i = 0; i < genres.length; i++){
-            String genre = genres[i];
-            int play = plays[i];
-            
-            if(!genreMap.containsKey(genre)){
-                genreMap.put(genre,new ArrayList<>());
-                playMap.put(genre,0);
-                
-            }
-            genreMap.get(genre).add(new int[]{i, play});
-            playMap.put(genre, playMap.get(genre) + play);
+        public int[] solution(String[] genres, int[] plays) {
+        ArrayList<String[]> songs = new ArrayList<>();
+        // 고유번호 - 장르 - 재생횟수
+        for (int i = 0; i < plays.length; i++) {
+            songs.add(new String[]{String.valueOf(i), genres[i], String.valueOf(plays[i])});
         }
-        
-        ArrayList<Integer> answer = new ArrayList<>();
-        
-        //sortedGenre는 스트림이다
-        Stream<Map.Entry<String,Integer>> sortedGenre = playMap.entrySet()
-        .stream()
-        .sorted((o1,o2)->Integer.compare(o2.getValue(), o1.getValue()));
-        
-        sortedGenre.forEach(entry -> {
-            Stream<int[]> sortedSongs = genreMap.get(entry.getKey()).stream()
-            .sorted((o1,o2) -> Integer.compare(o2[1],o1[1]))
-            .limit(2);
-            sortedSongs.forEach(song -> answer.add(song[0]));
-        });
+
+
+        List<Integer> answer = songs.stream().collect(
+                Collectors.groupingBy(o -> o[1], Collectors.toList()))
+                .entrySet().stream()
+                .sorted((e1, e2) -> {
+                    int sum1 = e1.getValue().stream().mapToInt(song -> Integer.parseInt(song[2])).sum();
+                    int sum2 = e2.getValue().stream().mapToInt(song -> Integer.parseInt(song[2])).sum();
+                    return Integer.compare(sum2, sum1);
+                })
+                .flatMap(entry -> entry.getValue().stream()
+                .sorted((a,b) -> {
+                    int comp = Integer.compare(Integer.parseInt(b[2]), Integer.parseInt(a[2]));
+                    if(comp == 0) {
+                        return Integer.compare(Integer.parseInt(a[0]), Integer.parseInt(b[0]));
+                    }
+                    return comp;
+                })
+                .limit(2))
+                .map(song -> Integer.parseInt(song[0])).collect(Collectors.toList());
         return answer.stream().mapToInt(Integer::intValue).toArray();
-        
+
     }
 }
