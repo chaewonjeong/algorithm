@@ -19,18 +19,20 @@ public class Main {
             list.add(new int[]{start, end});
         }
 
-        ArrayList<int[]> sorted = list.stream()
-                .sorted(Comparator.comparing((int []i) -> i[1])
-                        .thenComparing((int []i) -> i[0]))
-                .collect(Collectors.toCollection(ArrayList::new));
+//        ArrayList<int[]> sorted = list.stream()
+//                .sorted(Comparator.comparing((int []i) -> i[1])
+//                        .thenComparing((int []i) -> i[0]))
+//                .collect(Collectors.toCollection(ArrayList::new));
+
+        list.sort(Comparator.comparingInt((int[] a) -> a[1]).thenComparing(a -> a[0]));
 
 
         int count = 1;
-        int tmp = sorted.get(0)[1];
+        int tmp = list.get(0)[1];
 
-        for(int i = 1; i < sorted.size(); i++) {
-            if(sorted.get(i)[0] >= tmp) {
-                tmp = sorted.get(i)[1];
+        for(int i = 1; i < list.size(); i++) {
+            if(list.get(i)[0] >= tmp) {
+                tmp = list.get(i)[1];
                 count++;
             }
         }
