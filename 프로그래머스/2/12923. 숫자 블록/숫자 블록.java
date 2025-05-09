@@ -3,33 +3,33 @@ import java.util.Arrays;
 import java.util.*;
 
 class Solution {
-    public static int[] solution(long begin, long end) {
-    int len = (int)(end - begin + 1);
-    int[] answer = new int[len];
+        public static int[] solution(long begin, long end) {
+        ArrayList<Integer> answer = new ArrayList<>();
 
-    for (long num = begin; num <= end; num++) {
-        if (num == 1) {
-            answer[(int)(num - begin)] = 0;
-            continue;
-        }
+        for(long num = begin; num <= end; num++) {
+            if (num == 1) {
+                answer.add(0);
+                continue;
+            }
 
-        int maxDiv = 1;
-        for (long i = 2; i * i <= num; i++) {
-            if (num % i == 0) {
-                long pair = num / i;
-                if (pair <= 10_000_000) {
-                    maxDiv = (int)pair;
-                    break;
-                } else if (i <= 10_000_000) {
-                    maxDiv = (int)i;
+            int result = 1;
+
+            for(long i = 2; i * i <= num; i++) {
+                if(num % i == 0) {
+                    long quot = num / i;
+                    if(quot <= 10_000_000){
+                        result = (int) quot;
+                        break;
+                    } else if (i <= 10_000_000){
+                        result = (int) i;
+                    }
                 }
             }
+            answer.add(result);
         }
-        answer[(int)(num - begin)] = maxDiv;
+
+
+        return answer.stream().mapToInt(Integer::intValue).toArray();
     }
-
-    return answer;
-}
-
 
 }
