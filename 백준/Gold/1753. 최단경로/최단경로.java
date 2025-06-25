@@ -6,24 +6,23 @@ import java.util.*;
 public class Main {
 
     static final int INF = 0x3f3f3f3f;
-    public static void main(String[] args) throws IOException {
-        // (거리, 정점)
 
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
         int v = Integer.parseInt(st.nextToken());
         int e = Integer.parseInt(st.nextToken());
-        int start = Integer.parseInt(br.readLine());
-        int[] dist = new int[v+1];
+        int[] dist = new int[v + 1];
 
         Arrays.fill(dist, INF);
 
-        ArrayList<int[]>[] adjLIst = new ArrayList[v + 1];
+        int start = Integer.parseInt(br.readLine());
+        ArrayList<int[]>[] graph = new ArrayList[v + 1];
         PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(o -> o[0]));
 
-        for(int i = 0 ; i <= v ; i++){
-            adjLIst[i] = new ArrayList<>();
+        for(int i = 0; i <= v; i++) {
+            graph[i] = new ArrayList<>();
         }
 
         for (int i = 0; i < e; i++) {
@@ -32,22 +31,22 @@ public class Main {
             int v2 = Integer.parseInt(st.nextToken());
             int w = Integer.parseInt(st.nextToken());
 
-            adjLIst[v1].add(new int[]{w, v2});
+            graph[v1].add(new int[]{v2, w});
         }
 
         pq.add(new int[]{0, start});
         dist[start] = 0;
 
-        while(!pq.isEmpty()){
-            int[] cur = pq.poll(); // (가중치, 정점)
+        while (!pq.isEmpty()) {
+            int[] cur = pq.poll();
             int curW = cur[0];
             int curV = cur[1];
 
             if(dist[curV] != curW) continue;
 
-            for(int[] neighbor : adjLIst[curV]){
-                int neighborW = neighbor[0];
-                int neighborV = neighbor[1];
+            for (int[] neighbor : graph[curV]) {
+                int neighborV = neighbor[0];
+                int neighborW = neighbor[1];
 
                 if(dist[neighborV] > dist[curV] + neighborW){
                     dist[neighborV] = dist[curV] + neighborW;
