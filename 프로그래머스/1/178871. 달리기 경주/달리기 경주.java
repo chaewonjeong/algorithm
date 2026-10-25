@@ -17,8 +17,8 @@ class Solution {
             players[idx-1] = p2;
             players[idx] = p1;
             
-            playersMap.put(p1, playersMap.get(p1) + 1);
-            playersMap.put(p2, playersMap.get(p2) - 1);
+            playersMap.put(p1, idx);
+            playersMap.put(p2, idx - 1);
         }
         return players;
     }
