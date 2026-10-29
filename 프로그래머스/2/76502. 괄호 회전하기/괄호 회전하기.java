@@ -1,44 +1,36 @@
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.HashMap;
 
 class Solution {
-    public boolean isValid(String s) {
-        Stack<Character> stack = new Stack<>();
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            if (c == '(' || c == '{' || c == '[') {
-                stack.push(c);
-            } else if (c == ')' || c == '}' || c == ']') {
-                if (stack.isEmpty()) {
-                    return false;
-                }
+    public static int solution(String s){
+        HashMap<Character, Character> map = new HashMap<>();
+        map.put(')','(');
+        map.put('}','{');
+        map.put(']','[');
+        
+        int n = s.length();
+        
+        s += s;
+        int answer = 0;
+        
+        A : for(int i = 0; i < n; i++){
+            ArrayDeque<Character> stack = new ArrayDeque<>();
 
-                if(c == ')' && stack.peek() == '(') {
-                    stack.pop();
-                } else if (c == '}' && stack.peek() == '{') {
-                    stack.pop();
-                } else if (c == ']' && stack.peek() == '[') {
-                    stack.pop();
-                } else {
+            for (int j = i; j < i + n; j++) {
+                char c = s.charAt(j);
+                if(!map.containsKey(c)){
                     stack.push(c);
                 }
+                else {
+                    if(stack.isEmpty() || !stack.pop().equals(map.get(c)))
+                        continue A;
+                }
             }
+            if(stack.isEmpty())
+                answer++;
         }
-        return stack.isEmpty();
+        return answer;
+        
     }
-
-    public int solution(String s) {
-        int count = 0;
-
-        for (int i = 0; i < s.length(); i++) {
-            // 문자열을 회전시키는 로직
-            String rotated = s.substring(i) + s.substring(0, i);
-
-            // 유효한 문자열인지 검사
-            if (isValid(rotated)) {
-                count++;
-            }
-        }
-
-        return count;
-    }
+       
 }
