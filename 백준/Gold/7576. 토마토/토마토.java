@@ -1,70 +1,87 @@
-import java.util.ArrayDeque;
-import java.util.Queue;
-import java.util.Scanner;
+import java.util.*;
+import java.io.*;
 
 public class Main {
-    // 토마토가 모두 익은 최소 날짜 출력
-    // 모든 토마토가 익지 못하는 상황이면 -1
-    // 1은 익은 토마토
-    // 0 은 익지 않은 토마토
-    // -1 은 비어있는 칸이다.
 
-    // 모든 1에서 동시에 출발해야함 -> 시작점이 여러개인 BFS는 모든 시작점을 큐에 넣고 시작하면 된다.
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int m = sc.nextInt(); // col
-        int n = sc.nextInt(); // row
-        int answer = 0;
+    static int[][] dirs = {{1,0},{0,1},{-1,0},{0,-1}};
 
-        int[][] maps = new int[n][m];
-        int[][] dist = new int[n][m]; // 일단 다 0으로 초기화
+    public static void main(String[] args) throws IOException {
 
-        int[][] dirs = new int[][]{{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        int m = Integer.parseInt(st.nextToken());
+        int n = Integer.parseInt(st.nextToken());
+
+
+        int[][] board = new int[n][m];
+        int[][] visited = new int[n][m];
 
         Queue<int[]> queue = new ArrayDeque<>();
 
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < m; j++){
-                maps[i][j] = sc.nextInt();
-            }
-        }
+        //정수 1은 익은 토마토, 정수 0은 익지 않은 토마토, 정수 -1은 토마토가 들어있지 않은 칸을 나타낸다.
 
         for(int i = 0; i < n; i++){
+            st = new StringTokenizer(br.readLine());
             for(int j = 0; j < m; j++){
-                if(maps[i][j] == 1){ // 익은 토마토 모두 큐에 넣기
-                    queue.add(new int[]{i, j});
-                } else if(maps[i][j] == 0){
-                    dist[i][j] = -1; // 익지 않은 토마토가 있는곳은 -1 로 초기화
+                int tomato = Integer.parseInt(st.nextToken());
+                board[i][j] = tomato;
+                visited[i][j] = -1;
+                if(tomato == 1) {
+                    queue.add(new int[]{i,j});
+                    visited[i][j] = 1;
+                } else if (tomato == -1) {
+                    visited[i][j] = 0;
                 }
+
             }
         }
 
-        // bfs
         while(!queue.isEmpty()){
-            int[] cur = queue.poll();
+            int cur[] = queue.poll();
             int row = cur[0];
             int col = cur[1];
 
             for(int[] dir : dirs){
                 int newRow = row + dir[0];
                 int newCol = col + dir[1];
-                if(newRow >= 0 && newRow < n && newCol >= 0 && newCol < m
-                    && maps[newRow][newCol] == 0 && dist[newRow][newCol] == -1){
-                    queue.add(new int[]{newRow, newCol});
-                    dist[newRow][newCol] = dist[row][col] + 1;
+
+                if(newRow>=0 && newRow <n && newCol >=0 && newCol <m){
+                    if(board[newRow][newCol] == 0 && visited[newRow][newCol] == -1){
+                        visited[newRow][newCol] = visited[row][col] + 1;
+                        queue.add(new int[] {newRow, newCol});
+                    }
                 }
             }
+
         }
 
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < m; j++){
-                answer = Math.max(answer, dist[i][j]);
-                if(dist[i][j] == -1){
-                    System.out.println(-1);
-                    return;
-                }
-            }
+        // 최솟값
+        int min = Arrays.stream(visited)
+                .flatMapToInt(Arrays::stream)
+                .min()
+                .getAsInt();
+
+        // 최댓값
+        int max = Arrays.stream(visited)
+                .flatMapToInt(Arrays::stream)
+                .max()
+                .getAsInt();
+
+        if(min == 1 && max == 1) {
+            System.out.println(0);
+            return;
+        } else if(min == -1){
+            System.out.println(-1);
+            return;
         }
-        System.out.println(answer);
+
+        System.out.println(max-1);
+
+
+
+
+
+
     }
 }
