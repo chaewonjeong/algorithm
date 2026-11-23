@@ -46,6 +46,7 @@ public class Main {
         }
 
         int count_2 = 0;
+        int max = 0;
 
         while(!queue.isEmpty()){
             int cur[] = queue.poll();
@@ -59,6 +60,9 @@ public class Main {
                 if(newRow >= 0 && newRow < n && newCol >= 0 && newCol < m){
                     if(visited[newRow][newCol] == 0){
                         visited[newRow][newCol] = visited[row][col] + 1;
+
+                        max = Math.max(max,visited[newRow][newCol]);
+
                         queue.add(new int[] {newRow, newCol});
                         count_2++;
                     }
@@ -66,15 +70,7 @@ public class Main {
             }
         }
 
-        if(count_1 > count_2) {
-            System.out.println(-1);
-        } else {
-            int max = Arrays.stream(visited)
-                    .flatMapToInt(Arrays::stream)
-                    .max()
-                    .getAsInt();
-            System.out.println(max-1);
-        }
+        System.out.println(count_1 > count_2 ? -1 : max - 1);
 
     }
 }
